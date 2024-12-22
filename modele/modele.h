@@ -4,29 +4,29 @@
 #define MODEL_H
 
 typedef struct {
-    int x;              // position x de la moto
-    int y;              // position y de la moto
-    int direction;      // direction (haut, bas, gauche, ou droite)
-    char controls[4];   // les touches directionnelles
+    int x;              // Position x de la moto
+    int y;              // Position y de la moto
+    int direction;      // Direction (haut, bas, gauche, ou droite)
+    char controls[4];   // Les touches directionnelles
 } Bike;
 
 typedef struct {
-    int width;          // largeur du plateau  
-    int height;         // hauteur du plateau
-    short **grid;       // tableau représentant le plateau
+    int width;          // Largeur du plateau  
+    int height;         // Hauteur du plateau
+    short **grid;       // Tableau représentant le plateau
 } Board;
 
 typedef struct {
-    Bike bike;          // la moto du joueur 
-    int score;          // le score du joueur
-    bool IsAlive;       // true si la moto est en vie, false sinon
+    Bike bike;          // La moto du joueur 
+    int score;          // Le score du joueur
+    bool IsAlive;       // True si la moto est en vie, false sinon
 } Player;
 
 typedef struct {
-    Board board;        // plateau du jeu
-    Player *players;    // tableau contenant tous les joueurs
-    int nbPlayers;      // nombre de joueurs
-    bool isGameOver;    // true si partie est finie, false sinon
+    Board board;        // Plateau du jeu
+    Player *players;    // Tableau contenant tous les joueurs
+    int nbPlayers;      // Nombre de joueurs
+    bool isGameOver;    // True si partie est finie, false sinon
 } Game;
 
 #endif 
