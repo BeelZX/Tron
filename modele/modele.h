@@ -1,30 +1,32 @@
+#include <stdbool.h>
+
 #ifndef MODEL_H
 #define MODEL_H
 
 typedef struct {
-    int x;// pos x de la moto
-    int y;// pos y de la moto
-    int direction;// direction (la ou il regarde haut droite bas gauche)
-    int alive;// 1 si la moto est en vie, 0 sinon
-} Moto;
+    int x;              // position x de la moto
+    int y;              // position y de la moto
+    int direction;      // direction (haut, bas, gauche, ou droite)
+    char controls[4];   // les touches directionnelles
+} Bike;
 
 typedef struct {
-    int width;// largeur du plateau    
-    int height;// hauteur du plateau
-    char **grid;//tableau representant le ^plateau
-} Plateau;
+    int width;          // largeur du plateau  
+    int height;         // hauteur du plateau
+    short **grid;       // tableau représentant le plateau
+} Board;
 
 typedef struct {
-    Moto moto;//la moto du joueur 
-    int score;//son score
-    char controls[4];//les touches directionnelles
-} Joueur;
+    Bike bike;          // la moto du joueur 
+    int score;          // le score du joueur
+    bool IsAlive;       // true si la moto est en vie, false sinon
+} Player;
 
 typedef struct {
-    Plateau plateau;// plateau de jeu
-    Joueur *joueurs;// tableau de joueurs
-    int nb_joueurs;//nombre de joueurs
-    int game_over;//1 si partie finie, 0 sinon
-} Jeu;
+    Board board;        // plateau du jeu
+    Player *players;    // tableau contenant tous les joueurs
+    int nbPlayers;      // nombre de joueurs
+    bool isGameOver;    // true si partie est finie, false sinon
+} Game;
 
 #endif 
