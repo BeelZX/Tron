@@ -1,13 +1,19 @@
-#include <stdbool.h>
-
 #ifndef MODEL_H
 #define MODEL_H
+#include <stdbool.h>
+
+typedef enum {
+    UP = 0,
+    RIGHT,
+    DOWN,
+    LEFT
+} Direction;
 
 typedef struct {
-    int x;              // Position x de la moto
-    int y;              // Position y de la moto
-    int direction;      // Direction (haut, bas, gauche, ou droite)
-    char controls[4];   // Les touches directionnelles
+    int x;               // Position x de la moto
+    int y;               // Position y de la moto
+    Direction direction; // Direction (haut, bas, gauche, ou droite)
+    char controls[4];    // Les touches directionnelles
 } Bike;
 
 typedef struct {
