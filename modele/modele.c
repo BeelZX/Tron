@@ -10,10 +10,10 @@ Board *init_board(int width, int height) {
     if(!board) exit(EXIT_FAILURE);
     board->width = width;
     board->height = height;
-    board->grid = (int **) malloc(height * sizeof(short *));
+    board->grid = malloc(height * sizeof(short *));
     if(!board->grid) exit(EXIT_FAILURE);
     for (int i = 0; i < height; i++) {
-        board->grid[i] = (int *) calloc(width, sizeof(short));
+        board->grid[i] = calloc(width, sizeof(short));
         if(!board->grid[i]) exit(EXIT_FAILURE);
     }
     return board;
@@ -30,19 +30,19 @@ Player *init_player(int x, int y, Direction direction, const char controls[4]) {
     player->bike->direction = direction;
     player->score = 0;
     player->isAlive = true;
-    player->bike->direction = (char *) malloc(sizeof(char) * 4);
-    if(!player->bike->direction) exit(EXIT_FAILURE);
+    //player->bike->direction = (char *) malloc(sizeof(char) * 4);  //elle sert a rien cette ligne 
+    //if(!player->bike->direction) exit(EXIT_FAILURE); //elle aussi du coup
     memcpy(player->bike->controls, controls, sizeof(char) * 4);         // Copie des touches pour jouer dans le tableau de bike
     return player;
 }
 
 // Initialise le jeu
 Game *init_game(int boardWidth, int boardHeight){
-    Game *game = (Game *) malloc(sizeof(game));
+    Game *game = (Game *) malloc(sizeof(Game));
     if(!game) exit(EXIT_FAILURE);
     game->nbPlayers = 2;
     game->isGameOver = false;
-    game->players = (Player **) malloc(sizeof(Player) * game->nbPlayers);
+    game->players = (Player **) malloc(sizeof(Player *) * game->nbPlayers);
     if(!game->players) exit(EXIT_FAILURE);
     game->board = (Board *) init_board(boardWidth, boardHeight);
     return game;
@@ -60,8 +60,10 @@ void free_board(Board *board) {
 // Libère la mémoire allouée pour tous les joueurs
 void free_players(Player **players, int nb_players) {
     for (int i = 0; i < nb_players; i++) {
+        free(players[i]->bike);
         free(players[i]);
     }
+    free(players);
 }
 
 // Libère la mémoire allouée pour le jeu
@@ -90,21 +92,40 @@ void move_bike(Bike *bike) {
 }
 
 // Change la direction de la moto, retourne true si changement possible et fait, false sinon
-bool change_direction(Bike *bike, Direction direction) {
-    
+bool change_direction(Bike *bike, Direction newDirection) {
+    if ((bike->direction == UP && newDirection == DOWN) ||
+        (bike->direction == DOWN && newDirection == UP) ||
+        (bike->direction == LEFT && newDirection == RIGHT) ||
+        (bike->direction == RIGHT && newDirection == LEFT)) {
+        return false;
+    }
+    bike->direction = newDirection;
+    return true;
 }
 
 // Vérifie s'il y a une collision avec le bord du plateau ou avec un obstacle
-bool check_collision(){
-
+bool check_collision(Board *board, Bike *bike){
+    if (bike->x < 0 || bike->x >= board->width || bike->y < 0 || bike->y >= board->height) {
+        return true; // Collision avec les bords
+    }
+    if (board->grid[bike->y][bike->x] != 0) {
+        return true; // Collision avec une trace
+    }
+    return false;
 }
 
 // Place une trace derrière la moto sur le plateau
-void leave_trace(){
-
+void leave_trace(Board *board, Bike *bike){
+    board->grid[bike->y][bike->x] = 1;
 }
 
 // Vérifie si le jeu est fini
 bool check_game_over(Game *game) {
+    for (int i = 0; i < game->nbPlayers; i++) {
+        if (game->players[i]->isAlive) {
+            return false;
+        }
+    }
+    return true;
 
 }
