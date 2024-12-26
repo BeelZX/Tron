@@ -5,27 +5,6 @@
 #include <ncurses.h>
 #include <unistd.h> // Pour usleep
 
-/*int main() {
-    // Initialisation du jeu
-    Game *game = init_game(20, 15); // Plateau 20x15
-
-    // Vérification des joueurs et du plateau
-    for (int i = 0; i < game->nbPlayers; i++) {
-        Player *player = game->players[i];
-        printf("Player %d: Position (%d, %d), Direction %d\n", 
-               i + 1, 
-               player->bike->x, 
-               player->bike->y, 
-               player->bike->direction);
-    }
-
-    // Libération de la mémoire
-    free_game(game);
-
-    return 0;
-}
-*/
-
 int main() {
     // Initialisation du jeu
     Game *game = init_game(20, 15);
