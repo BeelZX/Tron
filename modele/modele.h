@@ -35,4 +35,16 @@ typedef struct {
     bool isGameOver;        // True si partie est finie, false sinon
 } Game;
 
+Board *init_board(int width, int height);
+Player *init_player(int x, int y, Direction direction, const char controls[4]);
+Game *init_game(int boardWidth, int boardHeight);
+void free_board(Board *board);
+void free_players(Player **players, int nb_players);
+void free_game(Game *game);
+void move_bike(Bike *bike);
+bool change_direction(Bike *bike, Direction newDirection);
+bool check_collision(Board *board, Bike *bike);
+void leave_trace(Board *board, Bike *bike);
+bool check_game_over(Game *game);
+
 #endif 

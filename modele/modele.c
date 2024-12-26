@@ -30,8 +30,6 @@ Player *init_player(int x, int y, Direction direction, const char controls[4]) {
     player->bike->direction = direction;
     player->score = 0;
     player->isAlive = true;
-    //player->bike->direction = (char *) malloc(sizeof(char) * 4);  //elle sert a rien cette ligne 
-    //if(!player->bike->direction) exit(EXIT_FAILURE); //elle aussi du coup
     memcpy(player->bike->controls, controls, sizeof(char) * 4);         // Copie des touches pour jouer dans le tableau de bike
     return player;
 }
@@ -40,11 +38,16 @@ Player *init_player(int x, int y, Direction direction, const char controls[4]) {
 Game *init_game(int boardWidth, int boardHeight){
     Game *game = (Game *) malloc(sizeof(Game));
     if(!game) exit(EXIT_FAILURE);
+
     game->nbPlayers = 2;
     game->isGameOver = false;
+
+    game->board = (Board *) init_board(boardWidth, boardHeight);
+
     game->players = (Player **) malloc(sizeof(Player *) * game->nbPlayers);
     if(!game->players) exit(EXIT_FAILURE);
-    game->board = (Board *) init_board(boardWidth, boardHeight);
+    game->players[0] = init_player(1, 1, RIGHT, (char[]){'z', 'd', 's', 'q'}); // Joueur 1
+    game->players[1] = init_player(boardWidth - 2, boardHeight - 2, LEFT, (char[]){'i', 'l', 'k', 'j'});  // Joueur 2   
     return game;
 }
 
