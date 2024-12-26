@@ -45,6 +45,6 @@ void move_bike(Bike *bike);
 bool change_direction(Bike *bike, Direction newDirection);
 bool check_collision(Board *board, Bike *bike);
 void leave_trace(Board *board, Bike *bike);
-bool check_game_over(Game *game);
+int check_game_over(Game *game);
 
 #endif 
