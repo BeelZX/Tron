@@ -10,7 +10,7 @@ int main() {
 }
 
 
-//j'ai voulu test ncurse mais je capte pas l'include fonction pas mais ca compile et affiche bien le truc
+//j'ai voulu test ncurse mais je capte pas l'include fonctionne pas mais ca compile et affiche bien le truc
 /*
 ca c'est pour toi l'installe
 sudo apt update
