@@ -82,14 +82,14 @@ void move_bike(Bike *bike) {
         case UP:
             bike->y--;
             break;
-        case RIGHT:
-            bike->x++;
-            break;
         case DOWN:
             bike->y++;
             break;
         case LEFT:
             bike->x--;
+            break;
+        case RIGHT:
+            bike->x++;
             break;
     }
 }
@@ -122,13 +122,12 @@ void leave_trace(Board *board, Bike *bike){
     board->grid[bike->y][bike->x] = 1;
 }
 
-// Vérifie si le jeu est fini
-bool check_game_over(Game *game) {
+// Vérifie si le jeu est fini, si c'est fini retourne l'index dans le tableau du joueur qui a gagné, sinon retourne -1
+int check_game_over(Game *game) {
     for (int i = 0; i < game->nbPlayers; i++) {
         if (game->players[i]->isAlive) {
-            return false;
+            return i;
         }
     }
-    return true;
-
+    return -1;
 }
