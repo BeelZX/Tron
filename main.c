@@ -5,49 +5,69 @@
 #include <ncurses.h>
 #include <unistd.h> // Pour usleep
 
-int main() {
-    // Initialisation du jeu
-    Game *game = init_game(20, 15);
+void mainMenu() {
+    int choice;
 
-    // Initialisation de Ncurses
-    initscr();
-    cbreak();
-    noecho();
-    keypad(stdscr, TRUE);
-    nodelay(stdscr, TRUE); // getch() ne bloque pas
-    curs_set(0); // Cache le curseur
+    while (1) {
+        // Affichage du menu principal
+        printf("=== Bienvenue dans Tron ===\n");
+        printf("1. Jouer avec Ncurses\n");
+        printf("2. Jouer avec SDL (non implémenté)\n");
+        printf("3. Quitter\n");
+        printf("Votre choix : ");
+        scanf("%d", &choice);
 
-    // Boucle principale
-    while (!game->isGameOver) {
-        handle_input(game); // Gère les entrées utilisateur
+        switch (choice) {
+            case 1: {
+                // Menu de démarrage Ncurses
+                
+                while (1) {
+                    int start_choice = displayMenuStart(); // Menu de démarrage Ncurses
+                    if (start_choice == 1) { // Quitter
+                        endwin();
+                        return;
+                    } else if (start_choice == 2) { // SDL depuis Ncurses
+                        endwin();
+                        printf("Jouer avec SDL n'est pas encore implémenté.\n");
+                        return;
+                    } else if (start_choice == 0) { // Jouer
+                        Game *game = init_game(20, 15); // Initialisation du jeu
+                        initGame(game);         // Lancement du jeu avec Ncurses
 
-        // Déplace les motos et met à jour le plateau
-        for (int i = 0; i < game->nbPlayers; i++) {
-            Player *player = game->players[i];
-            if (player->isAlive) {
-                leave_trace(game->board, player->bike); // Laisse une trace
-                move_bike(player->bike); // Déplace la moto
-                if (check_collision(game->board, player->bike)) {
-                    player->isAlive = false; // Collision détectée
+                        // Affichage du menu de redémarrage
+                        int restart_choice = displayMenuReStart();
+                        if (restart_choice == 0) { // Rejouer
+                            free_game(game);
+                            continue; // Retourne au menu startMenu
+                        } else if (restart_choice == 1) { // SDL
+                            endwin();
+                            printf("\nJouer avec SDL n'est pas encore implémenté.\n");
+                            free_game(game);
+                            return;
+                        } else if (restart_choice == 2) { // Quitter
+                            free_game(game);
+                            endwin();
+                            return;
+                        }
+                    }
                 }
+                break;
             }
+            case 2:
+                printf("Jouer avec SDL n'est pas encore implémenté.\n");
+                break;
+            case 3:
+                printf("Au revoir !\n");
+                return;
+            default:
+                printf("Choix invalide. Veuillez réessayer.\n");
+                break;
         }
-
-        game->isGameOver = check_game_over(game); // Vérifie si le jeu est terminé
-
-        // Affiche le plateau mis à jour
-        display_board(game);
-
-        usleep(100000); // Pause pour ralentir le jeu (100 ms)
     }
-
-    // Fin de Ncurses
-    endwin();
-
-    // Libération de la mémoire
-    free_game(game);
-
-    return 0;
 }
 
+int main() {
+    mainMenu();
+    return 0;
+}
 
