@@ -84,7 +84,7 @@ int displayMenuReStart() {
 // Affiche le plateau de jeu et les joueurs
 void display_board(Game *game) {
     Board *board = game->board;
-    clear(); // Efface l'écran avant de redessiner
+    // Efface l'écran avant de redessiner
 
     // Affiche le plateau
     for (int y = 0; y < board->height; y++) {
@@ -108,7 +108,12 @@ void display_board(Game *game) {
 }
 
 void initGame(Game *game) {
-
+    initscr();
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+    nodelay(stdscr, TRUE);
+    curs_set(0); // Cache le curseur
     // Boucle principale
     while (!game->isGameOver) {
         handle_input(game); // Gère les entrées utilisateur
