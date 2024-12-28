@@ -96,7 +96,7 @@ void display_board(Game *game) {
         for (int x = -1; x <= board->width; x++) {
             if (y == -1 || y == board->height || x == -1 || x == board->width) {
                 attron(COLOR_PAIR(1));
-                mvprintw(y + y_offset + 1, x + x_offset + 1, "+");
+                mvprintw(y + y_offset + 1, x + x_offset + 1, "+ ");
                 attroff(COLOR_PAIR(1));
             }
         }

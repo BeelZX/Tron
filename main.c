@@ -35,7 +35,7 @@ void mainMenu() {
                         printf("Jouer avec SDL n'est pas encore implémenté.\n");
                         return;
                     } else if (start_choice == 0) { // Jouer
-                        Game *game = init_game(20, 15); // Initialisation du jeu
+                        Game *game = init_game(30, 20); // Initialisation du jeu
                         initGame(game);         // Lancement du jeu avec Ncurses
 
                         // Affichage du menu de redémarrage
