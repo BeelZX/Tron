@@ -20,7 +20,11 @@ void mainMenu() {
         switch (choice) {
             case 1: {
                 // Menu de démarrage Ncurses
-                
+                initscr();
+                cbreak();
+                noecho();
+                keypad(stdscr, TRUE);
+                curs_set(0);
                 while (1) {
                     int start_choice = displayMenuStart(); // Menu de démarrage Ncurses
                     if (start_choice == 1) { // Quitter
@@ -38,6 +42,7 @@ void mainMenu() {
                         int restart_choice = displayMenuReStart();
                         if (restart_choice == 0) { // Rejouer
                             free_game(game);
+                            clear();
                             continue; // Retourne au menu startMenu
                         } else if (restart_choice == 1) { // SDL
                             endwin();
