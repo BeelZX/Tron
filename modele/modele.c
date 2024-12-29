@@ -131,8 +131,8 @@ void leave_trace(Board *board, Bike *bike){
 int check_game_over(Game *game) {
     for (int i = 0; i < game->nbPlayers; i++) {
         if (game->players[i]->isAlive) {
-            return i;
+            return false;   // Au moins un joueur est encore en vie
         }
     }
-    return -1;
+    return true;            // Aucun joueur n'est vivant, la partie est terminée
 }
