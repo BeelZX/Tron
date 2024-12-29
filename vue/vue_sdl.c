@@ -25,6 +25,7 @@ int sdl_DisplayMenuStart(SDL_Window *window, SDL_Surface* screenSurface) {
     SDL_Rect rect2 = {415, 340, 225, 90};
     SDL_Rect rect3 = {415, 480, 225, 90};
     TTF_Font *font = TTF_OpenFont("./vue/georgia.ttf", 60);
+    // Affiche les choix
     SDL_FillRect(screenSurface, NULL, 0xC70039);
     SDL_FillRect(screenSurface, &rect, 0xe7e7e7);
     SDL_FillRect(screenSurface, &rect2, 0xe7e7e7);
@@ -43,6 +44,7 @@ int sdl_DisplayMenuStart(SDL_Window *window, SDL_Surface* screenSurface) {
                 case SDL_MOUSEMOTION:
                     cursor.x = event.motion.x;
                     cursor.y = event.motion.y;
+                    // Vérifie si le curseur est au dessus d'un des boutons, si oui l'assombrit
                     if(SDL_PointInRect(&cursor, &rect)) {
                         SDL_Rect rectSelect = {rect.x-10, rect.y-10, rect.w+20, rect.h+20};
                         SDL_FillRect(screenSurface, &rectSelect, 0x000000);
@@ -102,6 +104,7 @@ int sdl_DisplayMenuStart(SDL_Window *window, SDL_Surface* screenSurface) {
     }
 }
 
+// Affiche le menu pour recommencer
 int sdl_DisplayMenuRestart(SDL_Window *window, SDL_Surface *screenSurface, int score, char *winner) {
     bool quit = false;
     SDL_Event event;
@@ -115,6 +118,7 @@ int sdl_DisplayMenuRestart(SDL_Window *window, SDL_Surface *screenSurface, int s
     char score_[1000] = "Score: ";
     char nb[1000];
     strcat(score_, SDL_itoa(score, nb, 10));
+    // Affichage des choix, score et nom du gagnant s'il y a, sinon affiche pour le gagnant "Personne"
     SDL_FillRect(screenSurface, NULL, 0xC70039);
     SDL_FillRect(screenSurface, &rect, 0xe7e7e7);
     SDL_FillRect(screenSurface, &rect2, 0xe7e7e7);
@@ -135,6 +139,7 @@ int sdl_DisplayMenuRestart(SDL_Window *window, SDL_Surface *screenSurface, int s
                 case SDL_MOUSEMOTION:
                     cursor.x = event.motion.x;
                     cursor.y = event.motion.y;
+                    // Bouton devient noir si le curseur passe au dessus
                     if(SDL_PointInRect(&cursor, &rect)) {
                         SDL_Rect rectSelect = {rect.x-10, rect.y-10, rect.w+20, rect.h+20};
                         SDL_FillRect(screenSurface, &rectSelect, 0x000000);
@@ -186,6 +191,7 @@ int sdl_DisplayMenuRestart(SDL_Window *window, SDL_Surface *screenSurface, int s
                 case SDL_MOUSEBUTTONDOWN:
                     cursor.x = event.motion.x;
                     cursor.y = event.motion.y;
+                    // Vérifie le clique sur les boutons
                     if(SDL_PointInRect(&cursor, &rect)) {
                         TTF_CloseFont(font);
                         return 0;
@@ -224,10 +230,12 @@ void sdl_DisplayBoard(Game *game, SDL_Window *window, SDL_Surface* screenSurface
     int incrX = 980 / game->board->width;
     int incrY = 460 / game->board->height;
     SDL_Rect square = {rect.x, rect.y, incrX, incrY};
+    // Contour du plateau
     SDL_FillRect(screenSurface, &(SDL_Rect) {rect.x-5, rect.y-5, rect.w+11, rect.h+11}, 0x000000);
     SDL_FillRect(screenSurface, &rect, 0xFFFFFF);
     for(int i=0; i < game->board->height; i++) {
         for(int j=0; j < game->board->width; j++) {
+            // affiche le plateau découpé en plein de carrés
             if(game->board->grid[i][j] == 1) {
                 square.x = j * incrX + rect.x;
                 square.y = i * incrY + rect.y;
@@ -235,6 +243,7 @@ void sdl_DisplayBoard(Game *game, SDL_Window *window, SDL_Surface* screenSurface
             }
         }
     }
+    // Affichage des motos
     square.x = game->players[0]->bike->x * incrX + rect.x;
     square.y = game->players[0]->bike->y * incrY + rect.y;
     SDL_FillRect(screenSurface, &square, 0x00e3ee);
@@ -263,33 +272,35 @@ void sdl_InitGame(Game *game, SDL_Window *window, SDL_Surface *surface) {
         sdl_DisplayBoard(game, window, surface);
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
+            // Si une touche est pressée
             if (event.type == SDL_KEYDOWN) {
-            switch(event.key.keysym.sym) {
-                case SDLK_z:
-                    change_direction(player1->bike, (Direction) UP);
-                    break;
-                case SDLK_q:
-                    change_direction(player1->bike, (Direction) LEFT);
-                    break;
-                case SDLK_s:
-                    change_direction(player1->bike, (Direction) DOWN);
-                    break;
-                case SDLK_d:
-                    change_direction(player1->bike, (Direction) RIGHT);
-                    break;
-                case SDLK_i:
-                    change_direction(player2->bike, (Direction) UP);
-                    break;
-                case SDLK_j:
-                    change_direction(player2->bike, (Direction) LEFT);
-                    break;
-                case SDLK_k:
-                    change_direction(player2->bike, (Direction) DOWN);
-                    break;
-                case SDLK_l:
-                    change_direction(player2->bike, (Direction) RIGHT);
-                    break;
-                }
+                // Vérifie si la touche pressée est l'une des touche suivantes
+                switch(event.key.keysym.sym) {
+                    case SDLK_z:
+                        change_direction(player1->bike, (Direction) UP);
+                        break;
+                    case SDLK_q:
+                        change_direction(player1->bike, (Direction) LEFT);
+                        break;
+                    case SDLK_s:
+                        change_direction(player1->bike, (Direction) DOWN);
+                        break;
+                    case SDLK_d:
+                        change_direction(player1->bike, (Direction) RIGHT);
+                        break;
+                    case SDLK_i:
+                        change_direction(player2->bike, (Direction) UP);
+                        break;
+                    case SDLK_j:
+                        change_direction(player2->bike, (Direction) LEFT);
+                        break;
+                    case SDLK_k:
+                        change_direction(player2->bike, (Direction) DOWN);
+                        break;
+                    case SDLK_l:
+                        change_direction(player2->bike, (Direction) RIGHT);
+                        break;
+                    }
             }
         }
         // Système de FPS
@@ -309,9 +320,11 @@ void sdl_InitGame(Game *game, SDL_Window *window, SDL_Surface *surface) {
     }
     int choice;
     switch(check_game_over_(game)) {
+        // Vérification de qui a gagné
         case -1:
             choice = sdl_DisplayMenuRestart(window, surface, player1->score, "Personne :'(");
             switch(choice) {
+                // choix pour relancer ou non
                 case 0:
                     free_game(game);
                     game = init_game(20, 20);
@@ -351,6 +364,7 @@ void sdl_InitGame(Game *game, SDL_Window *window, SDL_Surface *surface) {
     }
 }
 
+// Initialise le fichier vue_sdl.c
 void sdlInitia() {
     SDL_Window *window;
     SDL_Surface *screenSurface;
