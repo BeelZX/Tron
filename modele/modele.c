@@ -132,3 +132,12 @@ int check_game_over(Game *game) {
     }
     return true;            // Aucun joueur n'est vivant, la partie est terminée
 }
+
+int check_game_over_(Game *game) {
+    for (int i = 0; i < game->nbPlayers; i++) {
+        if (game->players[i]->isAlive) {
+            return i;
+        }
+    }
+    return -1;
+}

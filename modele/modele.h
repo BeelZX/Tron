@@ -27,12 +27,12 @@ typedef struct {
 typedef struct {
     int width;              // Largeur du plateau  
     int height;             // Hauteur du plateau
-    short **grid;           // Tableau représentant le plateau
+    short **grid;           // Tableau a deux dimensions représentant les cases du plateau
 } Board;
 
 // Structure représentant un joueur
 typedef struct {
-    Bike *bike;              // La moto du joueur 
+    Bike *bike;             // La moto du joueur 
     int score;              // Le score du joueur
     bool isAlive;           // True si la moto est en vie, false sinon
 } Player;
@@ -56,5 +56,5 @@ bool change_direction(Bike *bike, Direction newDirection);
 bool check_collision(Board *board, Bike *bike);
 void leave_trace(Board *board, Bike *bike);
 int check_game_over(Game *game);
-
+int check_game_over_(Game *game);
 #endif 

@@ -308,7 +308,7 @@ void sdl_InitGame(Game *game, SDL_Window *window, SDL_Surface *surface) {
         SDL_Delay(1000/60);
     }
     int choice;
-    switch(check_game_over(game)) {
+    switch(check_game_over_(game)) {
         case -1:
             choice = sdl_DisplayMenuRestart(window, surface, player1->score, "Personne :'(");
             switch(choice) {

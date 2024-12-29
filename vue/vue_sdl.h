@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
 #include "../src/include/SDL2/SDL.h"
 #include "../src/include/SDL2/SDL_ttf.h"
 #include "../modele/modele.h"

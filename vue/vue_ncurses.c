@@ -104,7 +104,7 @@ void display_board(Game *game) {
             if (board->grid[y][x] == 0)                             // Si la case est vide
                 mvprintw(y + y_offset + 1, x + x_offset + 1, " ");  // Affiche un espace
             else 
-                mvprintw(y + y_offset + 1, x + x_offset + 1, "#");  // Affiche un mur
+                mvprintw(y + y_offset + 1, x + x_offset + 1, "#");  // Affiche la trace de la moto
         }
     }
 
@@ -124,13 +124,7 @@ void display_board(Game *game) {
 
 // Initialisation du jeu
 void initGame(Game *game) {
-    initscr();
-    cbreak();
-    noecho();
-    keypad(stdscr, TRUE);
-    nodelay(stdscr, TRUE);
-    curs_set(0); // Cache le curseur
-    
+        
     // Boucle principale
     while (!game->isGameOver) {
         handle_input(game);                                 // Gère les entrées utilisateur
@@ -224,13 +218,13 @@ void loopGame(){
         int start_choice = displayMenuStart(); // Menu de démarrage Ncurses
         if (start_choice == 1) { // Quitter
             endwin();
-            break;
+            return;
         } else if (start_choice == 2) { // SDL depuis Ncurses
             sdlInitia();
             clear();
             return;
         } else if (start_choice == 0) { // Jouer
-            Game *game = init_game(30, 20); // Initialisation du jeu
+            Game *game = init_game(20, 20); // Initialisation du jeu
             initGame(game);         // Lancement du jeu avec Ncurses
 
             // Affichage du menu de redémarrage
