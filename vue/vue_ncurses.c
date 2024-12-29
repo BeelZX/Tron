@@ -112,9 +112,9 @@ void display_board(Game *game) {
     for (int i = 0; i < game->nbPlayers; i++) {
         Player *player = game->players[i];
         if (player->isAlive) {
-            attron(COLOR_PAIR(2));
-            mvprintw(player->bike->y + y_offset + 1, player->bike->x + x_offset + 1, "O");
-            attroff(COLOR_PAIR(2));
+            attron(COLOR_PAIR(2));                                                              // Mettre en surbrillance les motos
+            mvprintw(player->bike->y + y_offset + 1, player->bike->x + x_offset + 1, "O");      // Affiche la moto
+            attroff(COLOR_PAIR(2));                                                             // Arrête de mettre en surbrillance les motos
         }
     }
 
