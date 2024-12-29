@@ -108,11 +108,10 @@ void display_board(Game *game) {
     // Affiche le plateau
     for (int y = 0; y < board->height; y++) {                       // On commence à 0 pour éviter les bords
         for (int x = 0; x < board->width; x++) { 
-            if (board->grid[y][x] == 0) {                           // Si la case est vide
+            if (board->grid[y][x] == 0)                             // Si la case est vide
                 mvprintw(y + y_offset + 1, x + x_offset + 1, " ");  // Affiche un espace
             else 
                 mvprintw(y + y_offset + 1, x + x_offset + 1, "#");  // Affiche un mur
-            }
         }
     }
 
