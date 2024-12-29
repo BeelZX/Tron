@@ -213,3 +213,42 @@ void displayWinner(Game *game) {
     getch(); // Attente d'une touche
 }
 
+void loopGame(){
+    // Lancer Ncurses
+    initscr();
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+    curs_set(0);
+    while (1) {
+        int start_choice = displayMenuStart(); // Menu de démarrage Ncurses
+        if (start_choice == 1) { // Quitter
+            endwin();
+            break;
+        } else if (start_choice == 2) { // SDL depuis Ncurses
+            sdlInitia();
+            clear();
+            return;
+        } else if (start_choice == 0) { // Jouer
+            Game *game = init_game(30, 20); // Initialisation du jeu
+            initGame(game);         // Lancement du jeu avec Ncurses
+
+            // Affichage du menu de redémarrage
+            int restart_choice = displayMenuReStart();
+            if (restart_choice == 0) { // Rejouer
+                free_game(game);
+                clear();
+                continue; // Retourne au menu startMenu
+            } else if (restart_choice == 1) { // SDL
+                sdlInitia();
+                free_game(game);
+                endwin();
+                return;
+            } else if (restart_choice == 2) { // Quitter
+                free_game(game);
+                endwin();
+                return;
+            }
+        }
+    }
+}

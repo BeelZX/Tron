@@ -1,16 +1,5 @@
 #include "./controleur.h"
 
-
-// Vérifie si une touche correspond aux contrôles d’un joueur
-bool is_valid_input(char input, const char controls[4]) {
-    for (int i = 0; i < 4; i++) {
-        if (input == controls[i]) {
-            return true;
-        }
-    }
-    return false;
-}
-
 // Gère les entrées utilisateur
 void handle_input(Game *game) {
     int ch = getch();                           // Lire une touche pressée
@@ -26,9 +15,6 @@ void handle_input(Game *game) {
         }
     }
 }
-<<<<<<< Updated upstream
-
-
 
 // Vérifie si une touche correspond aux contrôles d’un joueur
 bool is_valid_input(char input, const char controls[4]) {
@@ -40,5 +26,3 @@ bool is_valid_input(char input, const char controls[4]) {
     return false;
 }
 
-=======
->>>>>>> Stashed changes
