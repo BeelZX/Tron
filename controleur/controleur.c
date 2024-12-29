@@ -2,7 +2,7 @@
 
 // Gère les entrées utilisateur
 void handle_input(Game *game) {
-    int ch = getch();                           // Lire une touche pressée
+    int ch = getch();                                   // Lire une touche pressée
     for (int i = 0; i < game->nbPlayers; i++) {
         Player *player = game->players[i];
         Bike *bike = player->bike;
@@ -19,7 +19,7 @@ void handle_input(Game *game) {
 // Vérifie si une touche correspond aux contrôles d’un joueur
 bool is_valid_input(char input, const char controls[4]) {
     for (int i = 0; i < 4; i++) {
-        if (input == controls[i]) { // Compare la touche avec chaque contrôle
+        if (input == controls[i]) {                     // Compare la touche avec chaque contrôle
             return true;
         }
     }

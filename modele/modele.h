@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <ncurses.h>
-#include <unistd.h> // Pour usleep
+#include <unistd.h> 
 
 // Définition des directions possibles pour la moto
 typedef enum {

@@ -147,8 +147,7 @@ void initGame(Game *game) {
 
         game->isGameOver = check_game_over(game);           // Vérifie si le jeu est terminé
 
-        // Affiche le plateau mis à jour
-        display_board(game);
+        display_board(game);                                // Affiche le plateau mis à jour
         displayScore(game);
 
         usleep(100000);                                     // Pause pour ralentir le jeu (100 ms)
@@ -170,9 +169,9 @@ void displayScore(Game *game) {
 
 // Trouve le gagnant en fonction des scores
 int findWinner(Game *game, int *maxScore, bool *tie) {
-    int winner = -1;    // Aucun gagnant
-    *maxScore = -1;     // Score maximum
-    *tie = false;       // Pas de match nul
+    int winner = -1;                                        // Aucun gagnant
+    *maxScore = -1;                                         // Score maximum
+    *tie = false;                                           // Pas de match nul
 
     for (int i = 0; i < game->nbPlayers; i++) {
         if (game->players[i]->score > *maxScore) {
@@ -204,7 +203,7 @@ void displayWinner(Game *game) {
 
     mvprintw(12, 10, "Appuyez sur une touche pour continuer...");
     refresh();
-    getch(); // Attente d'une touche
+    getch();                                                    // Attente d'une touche
 }
 
 void loopGame(){
@@ -215,30 +214,30 @@ void loopGame(){
     keypad(stdscr, TRUE);
     curs_set(0);
     while (1) {
-        int start_choice = displayMenuStart(); // Menu de démarrage Ncurses
-        if (start_choice == 1) { // Quitter
+        int start_choice = displayMenuStart();                  // Menu de démarrage Ncurses
+        if (start_choice == 1) {                                // Quitter
             endwin();
             return;
-        } else if (start_choice == 2) { // SDL depuis Ncurses
+        } else if (start_choice == 2) {                         // SDL depuis Ncurses
             sdlInitia();
             clear();
             return;
-        } else if (start_choice == 0) { // Jouer
-            Game *game = init_game(20, 20); // Initialisation du jeu
-            initGame(game);         // Lancement du jeu avec Ncurses
+        } else if (start_choice == 0) {                         // Jouer
+            Game *game = init_game(20, 20);                     // Initialisation du jeu
+            initGame(game);                                     // Lancement du jeu avec Ncurses
 
             // Affichage du menu de redémarrage
             int restart_choice = displayMenuReStart();
-            if (restart_choice == 0) { // Rejouer
+            if (restart_choice == 0) {                          // Rejouer
                 free_game(game);
                 clear();
-                continue; // Retourne au menu startMenu
-            } else if (restart_choice == 1) { // SDL
+                continue;                                       // Retourne au menu startMenu
+            } else if (restart_choice == 1) {                   // SDL
                 sdlInitia();
                 free_game(game);
                 endwin();
                 return;
-            } else if (restart_choice == 2) { // Quitter
+            } else if (restart_choice == 2) {                   // Quitter
                 free_game(game);
                 endwin();
                 return;
