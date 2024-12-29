@@ -1,5 +1,11 @@
-# Tron
+faire ces commande dans le terminal pour installer les dépendances
 
-Pour pouvoir compiler :
-gcc -o tron main.c controleur/controleur.c modele/modele.c vue/vue_ncurses.c -lncurses
-Ensuite lancer le programme avec ./tron-
+sudo apt install libncurses5-dev libncursesw5-dev
+
+sudo apt-get install libsdl2-2.0-0 libsdl2-dev
+
+sudo apt-get install libsdl2-ttf-2.0-0 libsdl2-ttf-dev
+
+make tron
+
+./tron

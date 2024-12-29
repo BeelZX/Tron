@@ -249,7 +249,7 @@ void sdl_DisplayBoard(Game *game, SDL_Window *window, SDL_Surface* screenSurface
 void sdl_InitGame(Game *game, SDL_Window *window, SDL_Surface *surface) {
     switch(sdl_DisplayMenuStart(window, surface)) {
         case 1:
-
+            loopGame();
             return;
             break;
         case 2:
@@ -308,7 +308,7 @@ void sdl_InitGame(Game *game, SDL_Window *window, SDL_Surface *surface) {
         SDL_Delay(1000/60);
     }
     int choice;
-    switch(check_game_over(game)) {
+    switch(check_game_over_(game)) {
         case -1:
             choice = sdl_DisplayMenuRestart(window, surface, player1->score, "Personne :'(");
             switch(choice) {
@@ -318,7 +318,7 @@ void sdl_InitGame(Game *game, SDL_Window *window, SDL_Surface *surface) {
                     sdl_InitGame(game, window, surface);
                     break;
                 case 1:
-
+                    loopGame();
                     break;
             }
             break;
@@ -331,7 +331,7 @@ void sdl_InitGame(Game *game, SDL_Window *window, SDL_Surface *surface) {
                     sdl_InitGame(game, window, surface);
                     break;
                 case 1:
-
+                    loopGame();
                     break;
             }
             break;
@@ -344,22 +344,19 @@ void sdl_InitGame(Game *game, SDL_Window *window, SDL_Surface *surface) {
                     sdl_InitGame(game, window, surface);
                     break;
                 case 1:
-
-                    break;
+                loopGame();
+                break;
             }
             break;
     }
 }
 
-int main(int argc, char *args[]) {
+void sdlInitia() {
     SDL_Window *window;
     SDL_Surface *screenSurface;
     init_SDL(&window, &screenSurface);
-    // sdl_DisplayMenuStart(window, screenSurface);
-    // sdl_DisplayMenuRestart(window, screenSurface, 69, "Castor");
-    Game *jeu = init_game(20, 20);
-    sdl_InitGame(jeu, window, screenSurface);
-    free_game(jeu);
+    Game *game = init_game(20, 20);
+    sdl_InitGame(game, window, screenSurface);
+    free_game(game);
     close_SDL(window, screenSurface);
-    return 0;
 }

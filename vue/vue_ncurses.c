@@ -1,11 +1,4 @@
 #include "vue_ncurses.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <unistd.h> // Pour usleep
-#include "../modele/modele.h"
-#include "../controleur/controleur.h"
-#include <ncurses.h>
 
 // Menu principal avec les options de démarrage
 int displayMenuStart() {
@@ -89,10 +82,10 @@ void display_board(Game *game) {
     init_pair(2, COLOR_GREEN, COLOR_BLACK);     // Pour les motos
 
     Board *board = game->board;
-    int x_offset = 2; // Décalage horizontal pour ajouter de la marge
-    int y_offset = 2; // Décalage vertical pour ajouter de la marge
+    int x_offset = 2;                           // Décalage horizontal pour ajouter de la marge
+    int y_offset = 2;                           // Décalage vertical pour ajouter de la marge
 
-    clear(); // Efface l'écran avant de redessiner
+    clear();                                    // Efface l'écran avant de redessiner
 
     // Dessine les bords du plateau
     for (int y = -1; y <= board->height; y++) {                             // -1 pour la bordure supérieure
@@ -111,7 +104,7 @@ void display_board(Game *game) {
             if (board->grid[y][x] == 0)                             // Si la case est vide
                 mvprintw(y + y_offset + 1, x + x_offset + 1, " ");  // Affiche un espace
             else 
-                mvprintw(y + y_offset + 1, x + x_offset + 1, "#");  // Affiche un mur
+                mvprintw(y + y_offset + 1, x + x_offset + 1, "#");  // Affiche la trace de la moto
         }
     }
 
@@ -119,9 +112,9 @@ void display_board(Game *game) {
     for (int i = 0; i < game->nbPlayers; i++) {
         Player *player = game->players[i];
         if (player->isAlive) {
-            attron(COLOR_PAIR(2));
-            mvprintw(player->bike->y + y_offset + 1, player->bike->x + x_offset + 1, "O");
-            attroff(COLOR_PAIR(2));
+            attron(COLOR_PAIR(2));                                                              // Mettre en surbrillance les motos
+            mvprintw(player->bike->y + y_offset + 1, player->bike->x + x_offset + 1, "O");      // Affiche la moto
+            attroff(COLOR_PAIR(2));                                                             // Arrête de mettre en surbrillance les motos
         }
     }
 
@@ -131,13 +124,7 @@ void display_board(Game *game) {
 
 // Initialisation du jeu
 void initGame(Game *game) {
-    initscr();
-    cbreak();
-    noecho();
-    keypad(stdscr, TRUE);
-    nodelay(stdscr, TRUE);
-    curs_set(0); // Cache le curseur
-    
+        
     // Boucle principale
     while (!game->isGameOver) {
         handle_input(game);                                 // Gère les entrées utilisateur
@@ -174,7 +161,7 @@ void initGame(Game *game) {
 
 // Affiche le score des joueurs en haut a droite de l'écran
 void displayScore(Game *game) {
-    int x = game->board->width + 10; // Afficher à droite du plateau
+    int x = game->board->width + 10;                        // Afficher à droite du plateau
     mvprintw(0, x, "Scores :");
     for (int i = 0; i < game->nbPlayers; i++) {
         mvprintw(1 + i, x, "Joueur %d: %d", i + 1, game->players[i]->score);
@@ -220,3 +207,42 @@ void displayWinner(Game *game) {
     getch(); // Attente d'une touche
 }
 
+void loopGame(){
+    // Lancer Ncurses
+    initscr();
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE);
+    curs_set(0);
+    while (1) {
+        int start_choice = displayMenuStart(); // Menu de démarrage Ncurses
+        if (start_choice == 1) { // Quitter
+            endwin();
+            return;
+        } else if (start_choice == 2) { // SDL depuis Ncurses
+            sdlInitia();
+            clear();
+            return;
+        } else if (start_choice == 0) { // Jouer
+            Game *game = init_game(20, 20); // Initialisation du jeu
+            initGame(game);         // Lancement du jeu avec Ncurses
+
+            // Affichage du menu de redémarrage
+            int restart_choice = displayMenuReStart();
+            if (restart_choice == 0) { // Rejouer
+                free_game(game);
+                clear();
+                continue; // Retourne au menu startMenu
+            } else if (restart_choice == 1) { // SDL
+                sdlInitia();
+                free_game(game);
+                endwin();
+                return;
+            } else if (restart_choice == 2) { // Quitter
+                free_game(game);
+                endwin();
+                return;
+            }
+        }
+    }
+}
