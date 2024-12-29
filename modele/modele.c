@@ -6,14 +6,17 @@
 
 // Initialise le plateau
 Board *init_board(int width, int height) {
-    Board *board = malloc(sizeof(Board));
+    Board *board = malloc(sizeof(Board));// Alloue la mémoire pour le plateau
     if(!board) exit(EXIT_FAILURE);
-    board->width = width;
-    board->height = height;
-    board->grid = malloc(height * sizeof(short *));
+
+    board->width = width; // Largeur du plateau
+    board->height = height; // Hauteur du plateau
+
+    board->grid = malloc(height * sizeof(short *)); // Alloue la mémoire pour les lignes du plateau
     if(!board->grid) exit(EXIT_FAILURE);
+
     for (int i = 0; i < height; i++) {
-        board->grid[i] = calloc(width, sizeof(short));
+        board->grid[i] = calloc(width, sizeof(short)); // Alloue la mémoire pour les cases du plateau
         if(!board->grid[i]) exit(EXIT_FAILURE);
     }
     return board;
@@ -23,8 +26,10 @@ Board *init_board(int width, int height) {
 Player *init_player(int x, int y, Direction direction, const char controls[4]) {
     Player *player = (Player *) malloc(sizeof(Player));
     if(!player) exit(EXIT_FAILURE);
+
     player->bike = (Bike *) malloc(sizeof(Bike));
     if(!player->bike) exit(EXIT_FAILURE);
+
     player->bike->x = x;
     player->bike->y = y;
     player->bike->direction = direction;
@@ -42,9 +47,9 @@ Game *init_game(int boardWidth, int boardHeight){
     game->nbPlayers = 2;
     game->isGameOver = false;
 
-    game->board = (Board *) init_board(boardWidth, boardHeight);
+    game->board = (Board *) init_board(boardWidth, boardHeight); // Initialisation du plateau
 
-    game->players = (Player **) malloc(sizeof(Player *) * game->nbPlayers);
+    game->players = (Player **) malloc(sizeof(Player *) * game->nbPlayers); // Alloue la mémoire pour les joueurs
     if(!game->players) exit(EXIT_FAILURE);
     game->players[0] = init_player(1, 1, RIGHT, (char[]){'z', 'd', 's', 'q'}); // Joueur 1
     game->players[1] = init_player(boardWidth - 2, boardHeight - 2, LEFT, (char[]){'i', 'l', 'k', 'j'});  // Joueur 2   
@@ -76,7 +81,7 @@ void free_game(Game *game) {
     free(game);
 }
 
-// Déplacement de la moto
+// Déplacement de la moto en fonction de sa direction
 void move_bike(Bike *bike) {
     switch (bike->direction) {
         case UP:
@@ -106,7 +111,7 @@ bool change_direction(Bike *bike, Direction newDirection) {
     return true;
 }
 
-// Vérifie s'il y a une collision avec le bord du plateau ou avec un obstacle
+// Vérifie s'il y a une collision avec le bord du plateau ou avec une trace
 bool check_collision(Board *board, Bike *bike){
     if (bike->x < 0 || bike->x >= board->width || bike->y < 0 || bike->y >= board->height) {
         return true; // Collision avec les bords
@@ -126,8 +131,8 @@ void leave_trace(Board *board, Bike *bike){
 int check_game_over(Game *game) {
     for (int i = 0; i < game->nbPlayers; i++) {
         if (game->players[i]->isAlive) {
-            return i;
+            return false;   // Au moins un joueur est encore en vie
         }
     }
-    return -1;
+    return true;            // Aucun joueur n'est vivant, la partie est terminée
 }
