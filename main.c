@@ -1,13 +1,10 @@
-#include "./modele/modele.h"       // Pour le modèle
-#include "./controleur/controleur.h" // Pour le contrôleur
-#include "./vue/vue_ncurses.h" // La vue Ncurses
+#include "./modele/modele.h"       
+#include "./controleur/controleur.h"
+#include "./vue/vue_ncurses.h"
 #include "./vue/vue_sdl.h"
-#include <stdio.h>
-#include <unistd.h> // Pour usleep
-
 void mainMenu() {
     int choice;
-    char buffer[10]; // Tampon pour capturer l'entrée utilisateur
+    char buffer[10];                                // Tampon pour capturer l'entrée utilisateur
 
     while (1) {
         // Affichage du menu principal
