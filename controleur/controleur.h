@@ -1,7 +1,5 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
-
-#include <stdbool.h>
 #include "../modele/modele.h"
 
 void handle_input(Game *game);

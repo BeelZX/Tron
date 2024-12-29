@@ -1,6 +1,11 @@
 #ifndef MODEL_H
 #define MODEL_H
 #include <stdbool.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <ncurses.h>
+#include <unistd.h> // Pour usleep
 
 // Définition des directions possibles pour la moto
 typedef enum {

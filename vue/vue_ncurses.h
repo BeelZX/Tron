@@ -1,6 +1,7 @@
 #ifndef VUE_NCURSES_H
 #define VUE_NCURSES_H
 #include "../modele/modele.h"
+#include "../controleur/controleur.h"
 
 int displayMenuStart();
 int displayMenuReStart();

@@ -1,12 +1,11 @@
 #include "./controleur.h"
-#include <ncurses.h>
 
 // Gère les entrées utilisateur
 void handle_input(Game *game) {
-    int ch = getch();  // Lire une touche pressée
+    int ch = getch();                           // Lire une touche pressée
     for (int i = 0; i < game->nbPlayers; i++) {
         Player *player = game->players[i];
-        if (!player->isAlive) continue;  // Si un joueur est mort, on ne fait rien
+        if (!player->isAlive) continue;         // Si un joueur est mort, on ne fait rien
         Bike *bike = player->bike;
         if (is_valid_input(ch, bike->controls)) {
             // Associe l'entrée utilisateur à une direction

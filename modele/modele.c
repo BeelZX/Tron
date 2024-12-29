@@ -1,8 +1,4 @@
 #include "./modele.h"
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-#include <stdio.h>
 
 // Initialise le plateau
 Board *init_board(int width, int height) {
